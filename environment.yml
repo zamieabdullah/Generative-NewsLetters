@@ -24,4 +24,13 @@ dependencies:
   - wheel=0.38.4=py37haa95532_0
   - wincertstore=0.2=py37haa95532_2
   - zipp=3.11.0=py37haa95532_0
+  - pip:
+      - git-filter-repo==2.38.0
+      - gitdb==4.0.11
+      - gitdb2==4.0.2
+      - gitpython==3.0.6
+      - python-dotenv==0.21.1
+      - smmap==5.0.1
+      - trufflehog==2.2.1
+      - trufflehogregexes==0.0.7
 prefix: C:\Users\Zamie Abdullah\anaconda3\envs\genAI

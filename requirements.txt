@@ -3,10 +3,18 @@ click @ file:///C:/ci/click_1646038601470/work
 colorama @ file:///C:/b/abs_a9ozq0l032/croot/colorama_1672387194846/work
 Flask @ file:///C:/b/abs_ef16l83sif/croot/flask_1671217367534/work
 flit_core @ file:///opt/conda/conda-bld/flit-core_1644941570762/work/source/flit_core
+git-filter-repo==2.38.0
+gitdb==4.0.11
+gitdb2==4.0.2
+GitPython==3.0.6
 importlib-metadata @ file:///C:/ci/importlib-metadata_1648562631189/work
 itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
 Jinja2 @ file:///C:/b/abs_7cdis66kl9/croot/jinja2_1666908141852/work
 MarkupSafe @ file:///C:/ci/markupsafe_1654508076077/work
+python-dotenv==0.21.1
+smmap==5.0.1
+truffleHog==2.2.1
+truffleHogRegexes==0.0.7
 typing_extensions @ file:///C:/b/abs_89eui86zuq/croot/typing_extensions_1669923792806/work
 Werkzeug @ file:///C:/b/abs_17q5kgb8bo/croot/werkzeug_1671216014857/work
 wincertstore==0.2
