@@ -16,13 +16,13 @@ def read_jsonl(file_path):
 def generate():
     examples = read_jsonl("./example_docs/blog_posts.jsonl")
 
-    seo_terms = []
-    with open('./example_docs/seo_tokens.txt', 'r', encoding='utf-8') as file:
-        seo_terms = [line.strip() for line in file]
+    # seo_terms = []
+    # with open('./example_docs/seo_tokens.txt', 'r') as file:
+    #     seo_terms = [line.strip() for line in file]
 
-    seo_topics = []
-    for _ in range(0, 15):
-        seo_topics.append(random.choice(seo_terms))
+    # seo_topics = []
+    # for _ in range(0, 15):
+    #     seo_topics.append(random.choice(seo_terms))
 
     sample = []
     for i in range(0,9):
