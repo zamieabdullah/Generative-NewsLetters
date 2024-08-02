@@ -1,6 +1,10 @@
-from flask import Flask
+import streamlit as st
+from generate import generate
 
-app = Flask(__name__)
+blog = None
 
-if __name__ == '__main__':
-    app.run()
+while blog == None:
+    blog = generate()
+
+st.title(blog["title"])
+st.markdown(blog["content"])
