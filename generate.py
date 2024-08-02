@@ -82,10 +82,9 @@ def generate():
                     - Title: A title of what will covered in the blog post
                     - Content: The content of the blog post. Write the blog post in markdown. You do not have to tell me it is in markdown, just please
                             write the blog post in markdown. It should consist of at least 5000 words. Make sure that there is a lot to say 
-                            within categories and subcategories, making it an information read for the reader
+                            within categories and subcategories, making it an information read for the reader. Also please do not write the title
+                            inside the content as it is its own section.
                     - SEO Terms: A list of the SEO keywords used in the blog post
-
-                When writing a real estate blog post, you will be writing about this topic: {random.choice(allTopics)}.
                 
                 Depending on what is asked of you, based on how many blogposts the client requests from, you will always default to one blog post.
                 If the user asks for a specific amount, then provide that amount of blogposts in a listed array. However, in the output, you should respond
@@ -94,7 +93,7 @@ def generate():
                     "title": "The blog post title",
                     "content": "The blog post content",
                     "seo_terms": ["keyword1", "keyword2"]
-                Please follow the strucute and put a comma after every single key field. The content should be one whole string and any 
+                Please follow the strucure and put a comma after every single key field. The content should be one whole string and any 
                 kind of special character like \n for newline should be integrated within the content string to provide for that newline.
                 You do not have to tell me or put into a comment that this is a json, the user will already know its a json.
                 Please make sure that you follow the structure above and that something like seo terms is not found within "content", but should rather be 
@@ -106,10 +105,10 @@ def generate():
                 """
 
     user_prompt = f"""
-                Hello, I would like you to help me generate a unique real estate blog post. Here are examples of how real estate blog posts that I saw
-                and would hope you would be able to come up with something unique that consists of similar topics of the examples. Here are the examples:
-                {examples_str}. Follow the structure of the examples, and use some context from the examples, but use the context and create your own 
-                blog post. And please provide a lot of numbers and statistics. Only write about events in 2024.
+                Hello, I would like you to help me generate a unique real estate blog post. May you please write a blog with this topic: {random.choice(allTopics)}
+                Here are examples of how real estate blog posts that I saw and would hope you would be able to come up with something unique that consists 
+                of similar topics of the examples: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
+                the context and create your own blog post. And please provide a lot of numbers and statistics. Only write about event in 2024.
                 """
     # print(user_prompt)
     response = client.chat.completions.create(
