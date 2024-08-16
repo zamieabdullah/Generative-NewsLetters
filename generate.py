@@ -16,63 +16,18 @@ def read_jsonl(file_path):
 def generate():
     examples = read_jsonl("./example_docs/blog_posts.jsonl")
 
-    # seo_terms = []
-    # with open('./example_docs/seo_tokens.txt', 'r') as file:
-    #     seo_terms = [line.strip() for line in file]
+    seo_terms = []
+    with open('./example_docs/seo_key_topics.txt', 'r') as file:
+        seo_terms = [line.strip() for line in file]
 
-    # seo_topics = []
-    # for _ in range(0, 15):
-    #     seo_topics.append(random.choice(seo_terms))
+    seo_topics = random.choice(seo_terms)
 
     sample = []
     for i in range(0,9):
-        index = random.randint(0, len(examples))
+        index = random.randint(0, len(examples)-1)
         sample.append(examples[index])
         
     examples_str = '\n'.join(json.dumps(example, indent=4) for example in sample[0:8])
-
-    allTopics = [
-    "Current real estate market conditions",
-    "Housing market predictions",
-    "Economic factors affecting real estate",
-    "Local market updates",
-    "Step-by-step guides for first-time homebuyers",
-    "Tips for selling a home quickly and for the best price",
-    "Advice on choosing a real estate agent",
-    "Understanding mortgage options",
-    "DIY home improvement projects",
-    "Tips for increasing home value",
-    "Seasonal maintenance checklists",
-    "Energy-efficient home upgrades",
-    "Home staging tips for sellers",
-    "Interior design trends",
-    "Space-saving ideas for small homes",
-    "Color schemes and decorating tips",
-    "Profiles of different neighborhoods",
-    "Community amenities and local attractions",
-    "School district information",
-    "Local business reviews",
-    "Real estate investment strategies",
-    "Tips for becoming a landlord",
-    "Understanding property taxes",
-    "Financial planning for buying a home",
-    "Understanding real estate contracts",
-    "Changes in real estate laws and regulations",
-    "Tenant rights and landlord responsibilities",
-    "Zoning laws and property usage",
-    "Eco-friendly home features",
-    "Sustainable building practices",
-    "Benefits of green homes",
-    "Solar energy and other renewable resources",
-    "Balancing homeownership with lifestyle choices",
-    "Home office setups and work-from-home tips",
-    "Pet-friendly home ideas",
-    "Family-friendly home features",
-    "Smart home technology",
-    "Virtual tours and augmented reality in home buying",
-    "Online real estate platforms",
-    "Home security systems"
-    ]
 
     master_prompt = f"""
                 You are a real-estate blog writer. Given examples of blog posts and also extra data accumulated from external
@@ -82,8 +37,7 @@ def generate():
                     - Title: A title of what will covered in the blog post
                     - Content: The content of the blog post. Write the blog post in markdown. You do not have to tell me it is in markdown, just please
                             write the blog post in markdown. It should consist of at least 5000 words. Make sure that there is a lot to say 
-                            within categories and subcategories, making it an information read for the reader. Also please do not write the title
-                            inside the content as it is its own section.
+                            within categories and subcategories, making it an information read for the reader
                     - SEO Terms: A list of the SEO keywords used in the blog post
                 
                 Depending on what is asked of you, based on how many blogposts the client requests from, you will always default to one blog post.
@@ -105,10 +59,12 @@ def generate():
                 """
 
     user_prompt = f"""
-                Hello, I would like you to help me generate a unique real estate blog post. May you please write a blog with this topic: {random.choice(allTopics)}
+                Hello, I would like you to help me generate a unique real estate blog post. May you please write a blog with this topic: 
+                {seo_topics}
                 Here are examples of how real estate blog posts that I saw and would hope you would be able to come up with something unique that consists 
                 of similar topics of the examples: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
-                the context and create your own blog post. And please provide a lot of numbers and statistics. Only write about event in 2024.
+                the context and create your own blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
+                August 2024. Make the blog location specific. The blog should based in New York, NY. Make sure that SEO keywords are also seen frequently.
                 """
     # print(user_prompt)
     response = client.chat.completions.create(
@@ -126,4 +82,5 @@ def generate():
         resp = json.loads(response.choices[0].message.content)
     except:
         resp = None
+    print(seo_topics)
     return resp

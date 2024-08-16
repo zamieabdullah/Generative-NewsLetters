@@ -8,6 +8,7 @@ blog = None
 with st.spinner("Waiting for blog to load..."):
     while blog == None:
         blog = generate()
+        print(blog["title"])
 
 # Display the generated blog
 st.title(blog["title"])
