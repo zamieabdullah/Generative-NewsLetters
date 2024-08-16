@@ -17,7 +17,7 @@ def generate():
     examples = read_jsonl("./example_docs/blog_posts.jsonl")
 
     seo_terms = []
-    with open('./example_docs/seo_key_topics.txt', 'r') as file:
+    with open('./example_docs/seo_key_topics.txt', 'r', encoding='Windows-1252') as file:
         seo_terms = [line.strip() for line in file]
 
     seo_topics = random.choice(seo_terms)
