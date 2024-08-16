@@ -64,7 +64,7 @@ def generate():
                 Here are examples of how real estate blog posts that I saw and would hope you would be able to come up with something unique that consists 
                 of similar topics of the examples: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
                 the context and create your own blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
-                August 2024. Make the blog location specific. The blog should based in New York, NY. Make sure that SEO keywords are also seen frequently.
+                August 2024. Make the blog location specific. The blog should based in Austin, Texas. Make sure that SEO keywords are also seen frequently.
                 """
     # print(user_prompt)
     response = client.chat.completions.create(
