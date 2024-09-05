@@ -11,5 +11,5 @@ with st.spinner("Waiting for blog to load..."):
         print(blog["title"])
 
 # Display the generated blog
-st.title(blog["title"])
+# st.title(blog["title"])
 st.markdown(blog["content"])

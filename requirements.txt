@@ -5,3 +5,8 @@ pandas==2.2.2
 python-dotenv==1.0.1
 scikit-learn==1.5.1
 streamlit==1.37.0
+flask==3.0.3
+flask_cors==5.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+psycopg2-binary==2.9.9

@@ -35,8 +35,7 @@ def generate():
                 you will provide:
                     - URL: a url for the blog post that follows SEO standards
                     - Title: A title of what will covered in the blog post
-                    - Content: The content of the blog post. Write the blog post in markdown. You do not have to tell me it is in markdown, just please
-                            write the blog post in markdown. It should consist of at least 5000 words. Make sure that there is a lot to say 
+                    - Content: The content of the blog post. It should consist of at least 5000 words. Make sure that there is a lot to say 
                             within categories and subcategories, making it an information read for the reader
                     - SEO Terms: A list of the SEO keywords used in the blog post
                 
@@ -65,6 +64,7 @@ def generate():
                 of similar topics of the examples: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
                 the context and create your own blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
                 August 2024. Make the blog location specific. The blog should based in Austin, Texas. Make sure that SEO keywords are also seen frequently.
+                Write the blog in HTML format as well and follow SEO formatting.
                 """
     # print(user_prompt)
     tools = [
