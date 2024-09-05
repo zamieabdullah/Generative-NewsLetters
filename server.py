@@ -19,8 +19,15 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # Configure PostgreSQL connection
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@" \
+print(os.getenv('IN_PROD'), flush=True)
+if os.getenv('IN_PROD') == "True":
+    url = os.getenv('DATABASE_URL')
+else:
+    url = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@" \
                                         f"{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
+
+app.config['SQLALCHEMY_DATABASE_URI'] = url
+
 db.init_app(app)
 migrate = Migrate(app, db)
 app.config['SQLALCHEMY_ECHO'] = True
