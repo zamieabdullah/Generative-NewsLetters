@@ -32,17 +32,18 @@ def create():
 def getTitles():
     allPosts = BlogPosts.query.all()
     response = {}
-    title = []
-    url = []
-    timedate = []
+    blogs = []
     for post in allPosts:
-        title.append(post.title)
-        url.append(post.url)
-        timedate.append(post.created_at)
+        content = {
+            "title": post.title,
+            "url": post.url,
+            "timedate": post.created_at,
+        }
+
+        blogs.append(content)
+
     response = {
-        "title": title,
-        "url": url,
-        "timedate": timedate
+        "blogs": blogs
     }
 
     return jsonify(response)
