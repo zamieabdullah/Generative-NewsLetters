@@ -59,7 +59,7 @@ def get_post_by_url(url):
             "id": post.id,
             "url": post.url,
             "title": post.title,
-            "short_content": post.content,
+            "content": post.content,
             "created_at": post.created_at
         })
     else:
