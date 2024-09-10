@@ -3,6 +3,7 @@ import random
 import os
 from dotenv import load_dotenv
 import json
+from bs4 import BeautifulSoup
 
 load_dotenv()
 gpt = os.getenv('gpt_token')
@@ -135,3 +136,21 @@ def generate():
     except:
         resp = None
     return resp
+
+def html_to_str(html_str):
+    # Parse the HTML
+    soup = BeautifulSoup(html_str, "html.parser")
+
+    # Extract text (strip HTML tags)
+    text = soup.get_text()
+
+    # Split the text into words
+    words = text.split()
+
+    # Extract the first 30 words
+    first_30_words = words[:30]
+
+    # Join them back into a string
+    result = ' '.join(first_30_words)
+
+    return result

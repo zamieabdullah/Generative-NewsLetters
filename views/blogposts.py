@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from tasks.blogposts import generate
+from tasks.blogposts import generate, html_to_str
 from models.model import db
 from models.blogposts import BlogPosts
 
@@ -34,13 +34,14 @@ def getTitles():
     response = {}
     blogs = []
     for post in allPosts:
-        content = {
+        contents = {
             "title": post.title,
             "url": post.url,
             "timedate": post.created_at,
+            "content": html_to_str(post.content),
         }
 
-        blogs.append(content)
+        blogs.append(contents)
 
     response = {
         "blogs": blogs
@@ -58,7 +59,7 @@ def get_post_by_url(url):
             "id": post.id,
             "url": post.url,
             "title": post.title,
-            "content": post.content,
+            "short_content": post.content,
             "created_at": post.created_at
         })
     else:
