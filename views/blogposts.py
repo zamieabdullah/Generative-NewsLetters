@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from tasks.blogposts import generate, html_to_str
 from models.model import db
 from models.blogposts import BlogPosts
@@ -52,7 +52,12 @@ def getTitles():
 @bp.route('/blogs/<path:url>', methods=['GET'])
 def get_post_by_url(url):
     # Query the post with the specific URL
-    post = BlogPosts.query.filter_by(url=url).first()
+    if (url == None or url == "") and request.args.get('url'):
+        blog_url = request.args.get('url')
+    else:
+        blog_url = url
+
+    post = BlogPosts.query.filter_by(url=blog_url).first()
 
     if post:
         return jsonify({
