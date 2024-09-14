@@ -137,6 +137,159 @@ def generate():
         resp = None
     return resp
 
+def review(content):
+    master_prompt_2 = """
+        You are a real estate blog post reviewer. Your job is to read through the contents of real estate blog posts and provide suggestions
+        on how to make it better in terms of content, SEO, and providing more stats or information that will make the real estate blogpost more 
+        accurate to current data.
+    """
+
+    user_prompt_2 = f"""
+            I wrote a real estate blog post based on this topic: {content["title"]}. Here is the blog post that I wrote: {content["content"]}.
+            Can you give me suggestions to make it better in terms of content, writing style, and better SEO suggestions.
+    """
+
+    tool2 = [
+        {
+            "type": "function",
+            "function": {
+                "name": "generate_edits",
+                "description": "Generate a detailed list of suggestions to make the real estate blog post provided by the user better when it comes to content, data, and SEO rules",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "suggestions": {
+                            "type": "string",
+                            "description": "List of suggestions for improvements on the real estate blog post"
+                        }
+                    },
+                    "required": [
+                        "suggestions",
+                    ]
+                }
+            }
+        }
+    ]
+
+    response2 = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": master_prompt_2},
+                        {"role": "user", "content": user_prompt_2},
+                    ],
+                    tools=tool2,
+                    tool_choice="required",
+                    max_tokens=4096,
+                    temperature=0.7,
+                )
+    
+    response_dump2 = response2.model_dump()
+    choices2 = response_dump2.get("choices",[])
+    if choices2:
+        message2 = choices2[0].get("message", {})
+        tool_calls2 = message2.get("tool_calls", [])
+        if tool_calls2:
+            function2 = tool_calls2[0].get("function", {})
+            arguments2 = function2.get("arguments", {})
+            if arguments2:
+                response_json2 = arguments2
+    try:
+        data2 = json.loads(response_json2)
+        return data2
+    except:
+        return None
+    
+def final_draft(content, suggestions):
+    master_prompt_3 = """
+        You are a skilled real estate blog post writer tasked with crafting the final draft of a blog post. You will receive the first draft of the 
+        blog post along with a set of suggestions provided by a real estate blog post reviewer. Your task is to carefully review the first draft 
+        and fully incorporate the suggestions provided to create a polished final draft. Enhance the clarity, engagement, and natural flow of 
+        the content, ensuring it reads smoothly and appeals to the target audience. Remember to humanize the content, making it feel conversational and 
+        approachable while retaining the key messages and SEO elements. There should be a noticeable difference from the original draft.
+    """
+
+
+    user_prompt_3 = f"""
+    I wrote an initial draft of a real estate blog post on the topic: {content["title"]}. I want to improve this draft based on suggestions I received from a real estate blog post reviewer.
+
+    Here is the first draft of the blog post:
+    {content['content']}
+
+    Here are the suggestions:
+    {suggestions['suggestions']}
+
+    Please incorporate these suggestions into the final draft, enhancing readability, tone, and structure. Ensure the final draft is more engaging, flows naturally, and is well-aligned with the topic and SEO objectives.
+    """
+
+
+    tools_3 = [
+        {
+            "type": "function",
+            "function": {
+                "name": "generate_reviewed_blogpost",
+                "description": "Generate a final draft of a real estate blogpost that was provided by the user and rewrite it with the suggestions they provided",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "description": "Includes url for real estate blogpost that engages SEO keywords of real estate based on the topic. Only provide everything after the domain name",
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "Includes title for real estate blogpost that engages SEO keywords of real estate based on the topic.",
+                        },
+                        "content": {
+                            "type": "string",
+                            "description": "Includes content for real estate blogpost that engages SEO keywords of real estate based on the topic. Can you use html for this. Only provide the content of blog post do not add your own thoughts outside of the blog posts",
+                        },
+                        "seo_terms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Provide the list of SEO terms used when creating the real estate blogpost",
+                        }
+                    },
+                    "required": [
+                        "url",
+                        "title",
+                        "content",
+                        "seo_terms",
+                    ]
+                }
+            }
+        }
+    ]
+
+    response3 = client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": master_prompt_3},
+                        {"role": "user", "content": user_prompt_3},
+                    ],
+                    tools=tools_3,
+                    tool_choice="required",
+                    max_tokens=4096,
+                    temperature=1.0,
+                )
+    
+    response_dump3 = response3.model_dump()
+    choices3 = response_dump3.get("choices",[])
+    if choices3:
+        message3 = choices3[0].get("message", {})
+        tool_calls3 = message3.get("tool_calls", [])
+        if tool_calls3:
+            function3 = tool_calls3[0].get("function", {})
+            arguments3 = function3.get("arguments", {})
+            if arguments3:
+                response_json3 = arguments3
+    try:
+        data3 = json.loads(response_json3)
+        return data3
+    except:
+        return None
+    
 def html_to_str(html_str):
     # Parse the HTML
     soup = BeautifulSoup(html_str, "html.parser")

@@ -1,19 +1,31 @@
 from flask import Blueprint, jsonify, request
-from tasks.blogposts import generate, html_to_str
+from tasks.blogposts import generate, review, final_draft, html_to_str
 from models.model import db
 from models.blogposts import BlogPosts
+from sqlalchemy import desc
+from datetime import datetime
 
 bp = Blueprint('routes', __name__)
 
 @bp.route('/create', methods=['GET'])
 def create():
     try:
+        print("creating blog", flush=True)
         data = generate()
+        if data == None: return "<h1>Error 500</h1>"
+        print("creating suggestions", flush=True)
+
+        suggestions = review(data)
+        if suggestions == None: return "<h1>Error 500</h1>"
+        print("creating final draft", flush=True)
+        final = final_draft(data, suggestions)
+        if final == None: return "<h1>Error 500</h1>"
+        print("created final draft", flush=True)
         
         post = BlogPosts(
-            url=data["url"],
-            title=data["title"],
-            content=data["content"]
+            url=final["url"],
+            title=final["title"],
+            content=final["content"]
         )
 
         db.session.add(post)
@@ -30,14 +42,15 @@ def create():
 
 @bp.route('/get-titles', methods=['GET'])
 def getTitles():
-    allPosts = BlogPosts.query.all()
+    allPosts = BlogPosts.query.order_by(desc(BlogPosts.created_at)).all()
+
     response = {}
     blogs = []
     for post in allPosts:
         contents = {
             "title": post.title,
             "url": post.url,
-            "timedate": post.created_at,
+            "timedate": post.created_at.strftime('%B %d, %Y'),
             "content": html_to_str(post.content),
         }
 
