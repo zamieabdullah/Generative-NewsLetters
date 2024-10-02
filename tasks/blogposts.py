@@ -34,7 +34,7 @@ def generate():
                 You are a real-estate blog writer. Given examples of blog posts and also extra data accumulated from external
                 sources, you will write a unique real estate blog post, making use of SEO keywords to make the blog post stand out. In the blog post itself,
                 you will provide:
-                    - URL: a url for the blog post that follows SEO standards
+                    - URL: a url for the blog post that follows SEO standards. The URL should only consist of alphanumeric characters and a dash (-).
                     - Title: A title of what will covered in the blog post. The title should not appear in the content section.
                     - Content: The content of the blog post. It should consist of at least 5000 words. Make sure that there is a lot to say 
                             within categories and subcategories, making it an information read for the reader. Also do not put the title here.
@@ -47,7 +47,7 @@ def generate():
                     "title": "The blog post title",
                     "content": "The blog post content",
                     "seo_terms": ["keyword1", "keyword2"]
-                Please follow the strucure and put a comma after every single key field. The content should be one whole string and any 
+                Please follow the structure and put a comma after every single key field. The content should be one whole string and any 
                 kind of special character like \n for newline should be integrated within the content string to provide for that newline.
                 You do not have to tell me or put into a comment that this is a json, the user will already know its a json.
                 Please make sure that you follow the structure above and that something like seo terms is not found within "content", but should rather be 
@@ -56,16 +56,16 @@ def generate():
                 Please do not mention anything promotional or any footers regarding where the blog post is getting its data from, 
                 how it's written, or anything not related to what a blog post is supposed to write. Please do not write a table of contents. 
                 You are simply writing content. Please also make use of real estate SEO terms from example blog posts that may be given from the user.
+                When it comes to the structure of the content, do not add "Introduction" or "Conclusion" headers. Introduce and conclude creatively.
                 """
 
     user_prompt = f"""
-                Hello, I would like you to help me generate a unique real estate blog post. May you please write a blog with this topic: 
-                {seo_topics}
-                Here are examples of how real estate blog posts that I saw and would hope you would be able to come up with something unique that consists 
-                of similar topics of the examples: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
-                the context and create your own blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
+                Hello, I would like you to help me generate a unique real estate blog post. 
+                Please make sure to surround the topic around buying land, combining the land buying and the topic I gave into a seamless read in the blog post. 
+                Here are examples of how real estate blogs: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
+                the context and create your own unique blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
                 September 2024. Make the blog location specific. The setting for the blog is in Houston, Texas. Make sure that SEO keywords are also seen frequently.
-                Write the blog in HTML format as well and follow SEO formatting.
+                Write the blog in HTML format as well and follow SEO formatting. Do not use "Introduction" or "Conclusion" as headers. Be a little more creative than that.
                 """
     # print(user_prompt)
     tools = [
@@ -87,7 +87,10 @@ def generate():
                         },
                         "content": {
                             "type": "string",
-                            "description": "Includes content for real estate blogpost that engages SEO keywords of real estate based on the topic. Put this is HTML and make sure to follow SEO format. Do not put the title in the content. The title should only appear in the title section",
+                            "description": """Includes content for real estate blogpost that engages SEO keywords of real estate based on the topic. Put this is HTML and 
+                                                make sure to follow SEO format. Do not put the title in the content. The title should only appear in the title section.
+                                                Do not use the word "Introduction" or "Conclusion". Introduce the blog post with a creative header and conclude with creative header.
+                                            """,
                         },
                         "seo_terms": {
                             "type": "array",
