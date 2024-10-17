@@ -35,11 +35,12 @@ def generate():
                 You are a real-estate blog writer. Given examples of blog posts and also extra data accumulated from external
                 sources, you will write a unique real estate blog post, making use of SEO keywords to make the blog post stand out. In the blog post itself,
                 you will provide:
-                    - URL: a url for the blog post that follows SEO standards. The URL should only consist of alphanumeric characters and a dash (-).
-                    - Title: A title of what will covered in the blog post. The title should not appear in the content section.
-                    - Content: The content of the blog post. It should consist of at least 5000 words. Make sure that there is a lot to say 
-                            within categories and subcategories, making it an information read for the reader. Also do not put the title here.
-                    - SEO Terms: A list of the SEO keywords used in the blog post
+                    - URL: A URL for the blog post based on the title, following SEO standards. 
+                    **The URL should only consist of alphanumeric characters and dashes (-), derived directly from the title. 
+                    Do NOT include any slashes (/) or extra prefixes like '/blogs/' or '/'.**
+                    - Title: A title for the blog post that captures the main topic. The title should not appear in the content.
+                    - Content: The content of the blog post, with at least 5000 words. Write in HTML format, and do not include the title.
+                    - SEO Terms: A list of SEO keywords used in the blog post.
                 
                 Depending on what is asked of you, based on how many blogposts the client requests from, you will always default to one blog post.
                 If the user asks for a specific amount, then provide that amount of blogposts in a listed array. However, in the output, you should respond
@@ -80,7 +81,7 @@ def generate():
                     "properties": {
                         "url": {
                             "type": "string",
-                            "description": "Includes url for real estate blogpost that engages SEO keywords of real estate based on the topic. The URL should not consist of any other symbols other then a dash (-) should be the title in url format",
+                            "description": "URL for the blog post, derived from the title. Only alphanumeric characters and dashes (-). Do not include any slashes or extra prefixes.",
                         },
                         "title": {
                             "type": "string",
