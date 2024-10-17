@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request
 from tasks.blogposts import generate, review, final_draft, html_to_str
 from models.model import db
 from models.blogposts import BlogPosts
-from sqlalchemy import desc
+from models.examples import Examples, Titles
+from sqlalchemy import desc, func
 from datetime import datetime
 
 bp = Blueprint('routes', __name__)
@@ -82,3 +83,11 @@ def get_post_by_url(url):
         })
     else:
         return "<h1>Error: Page does not exist</h1>"
+    
+@bp.route('/example', methods=['GET'])
+def getExample():
+    total = db.session.query(Titles).count()
+    
+    print(total)
+        
+    return str(total)

@@ -4,6 +4,9 @@ import os
 from dotenv import load_dotenv
 import json
 from bs4 import BeautifulSoup
+from sqlalchemy import func
+from models.model import db
+from models.examples import Examples, Titles
 
 load_dotenv()
 gpt = os.getenv('gpt_token')
@@ -15,20 +18,18 @@ def read_jsonl(file_path):
         return [json.loads(line) for line in file]
 
 def generate():
-    examples = read_jsonl("./example_docs/blog_posts.jsonl")
 
-    seo_terms = []
-    with open('./example_docs/seo_key_topics.txt', 'r', encoding='Windows-1252') as file:
-        seo_terms = [line.strip() for line in file]
+    topic =  db.session.query(Titles).order_by(func.random()).first()
+    print("title" , topic.titles, flush=True)
 
-    seo_topics = random.choice(seo_terms)
+    random_blog = db.session.query(Examples).order_by(func.random()).limit(8)
+    resp = {}
+    blogs = []
 
-    sample = []
-    for i in range(0,9):
-        index = random.randint(0, len(examples)-1)
-        sample.append(examples[index])
+    for blog in random_blog:
+        blogs.append(blog.content)
         
-    examples_str = '\n'.join(json.dumps(example, indent=4) for example in sample[0:8])
+    examples_str = '\n'.join(blogs)
 
     master_prompt = f"""
                 You are a real-estate blog writer. Given examples of blog posts and also extra data accumulated from external
@@ -61,10 +62,10 @@ def generate():
 
     user_prompt = f"""
                 Hello, I would like you to help me generate a unique real estate blog post. 
-                Please make sure to surround the topic around buying land, combining the land buying and the topic I gave into a seamless read in the blog post. 
+                Please make sure to surround the topic around buying land, combining the land buying and this topic {topic.titles} into a seamless read in the blog post. 
                 Here are examples of how real estate blogs: {examples_str}. Follow the structure of the examples, and use some context from the examples, but use 
                 the context and create your own unique blog post. And please provide a lot of numbers and statistics. Write the blog around the current month of 
-                September 2024. Make the blog location specific. The setting for the blog is in Houston, Texas. Make sure that SEO keywords are also seen frequently.
+                September 2024. Make the blog location specific. The setting for the blog is in Texas. You can choose any city in Texas.  Make sure that SEO keywords are also seen frequently.
                 Write the blog in HTML format as well and follow SEO formatting. Do not use "Introduction" or "Conclusion" as headers. Be a little more creative than that.
                 """
     # print(user_prompt)
@@ -79,7 +80,7 @@ def generate():
                     "properties": {
                         "url": {
                             "type": "string",
-                            "description": "Includes url for real estate blogpost that engages SEO keywords of real estate based on the topic.",
+                            "description": "Includes url for real estate blogpost that engages SEO keywords of real estate based on the topic. The URL should not consist of any other symbols other then a dash (-) should be the title in url format",
                         },
                         "title": {
                             "type": "string",

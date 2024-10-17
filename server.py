@@ -10,6 +10,7 @@ load_dotenv()
 
 # importing models
 from models.blogposts import BlogPosts
+from models.examples import Examples, Keywords, Titles
 
 # importing routes
 from views.blogposts import bp as blogpost_routes
@@ -34,6 +35,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 # Create the database tables (if they don't exist)
 with app.app_context():
+
     db.create_all()
 
 
